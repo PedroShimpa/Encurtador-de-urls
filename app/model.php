@@ -9,7 +9,7 @@ class Model
         $this->setConn();
     }
 
-    public function insertUrl(string $url, string $hash): bool
+    public function insertUrl(string $url, string $hash): bool 
     {
         try {
             $sql =  "INSERT INTO urls (url, hash) VALUES (:url, :hash)";
@@ -26,7 +26,7 @@ class Model
     public function getUrlByHash(string $hash)
     {
         try {
-            $sql  = "SELECT url FROM urls WHERE hash = :hash AND vence_em > NOW()  LIMIT 1";
+            $sql  = "SELECT url FROM urls WHERE hash = :hash AND vence_em  NOW()  LIMIT 1";
             $stmt = $this->conn->prepare($sql);
             $stmt->bindValue(':hash', $hash);
             $stmt->execute();
@@ -35,6 +35,7 @@ class Model
             return [];
         }
     }
+
 
     private function setConn()
     {

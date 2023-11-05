@@ -16,15 +16,14 @@ class Controller
     {
         $hash =  str_replace('/', '', $_SERVER['REQUEST_URI']);
         if (empty($hash)) {
-            return require_once('view.php');
+            return $this->getViewGerador();
         }
         $url = $this->verifyHashAndReturnUrl($hash);
         if (!empty($url)) {
             header("Location: $url");
             die();
         }
-        echo 'Pagina não encontrada';
-        http_response_code(404);
+        return $this->getViewGerador();
     }
 
     public function insertUrl()
@@ -40,16 +39,9 @@ class Controller
         }
     }
 
-    public function  invalidMethods()
-    {
-        echo 'Metodos não habilitados';
-        http_response_code(405);
-        die();
-    }
-
     private function validateRequest(object $body): void
     {
-        $url = urlencode($body->url);
+        $url = $body->url;
         if (empty($url)) {
             $this->responseError('Envie a url que deseja encurtar, exemplo: {"url": "https://google.com.br"}.', 422);
         }
@@ -59,6 +51,17 @@ class Controller
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
             $this->responseError('A URL não é valida, exemplo de url válida: https://google.com.br', 422);
         }
+    }
+
+
+    private function getViewGerador()
+    {
+        return require_once('view.php');
+    }
+
+    public function invalidMethods()
+    {
+        return $this->responseError('Métodos não Habilitados', 405);
     }
 
     private function makeHash()
@@ -76,8 +79,7 @@ class Controller
     function verifyHashAndReturnUrl(string $hash)
     {
         if (preg_match('/^[a-zA-Z0-9]*$/', $hash) && strlen($hash) <= 5) {
-            $url = $this->model->getUrlByHash($hash);
-            return $url;
+            return $this->model->getUrlByHash($hash);
         } else {
             return false;
         }

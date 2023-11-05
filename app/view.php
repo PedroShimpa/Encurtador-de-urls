@@ -20,12 +20,11 @@
 					<div class="card-body">
 						<div class="row">
 							<div class="col-6">
-								<input class="form-control" id="url" placeholder="Digite aqui a url que deseja encurtar, exemplo: http://google.com.br">
+								<input class="form-control" id="url" placeholder="Digite aqui a url que deseja encurtar, exemplo: http://google.com.br" >
 							</div>
 							<div class="col-12" id="append-info">
 							</div>
 							<div class="col-12">
-
 								<button type="button" class="btn btn-primary mt-2" id="encurtar">ENCURTAR</button>
 							</div>
 						</div>
@@ -37,6 +36,10 @@
 	<script type="text/javascript">
 		$(document).on('click', '#encurtar', function() {
 			url = $('#url').val();
+			if (!url) {
+				alertInfo('warning', 'Preencha a url!')
+				return;
+			}
 			$.ajax({
 				url: '/',
 				data: JSON.stringify({
@@ -45,16 +48,22 @@
 				method: 'POST',
 				contentType: 'application/json',
 			}).done(function(response) {
-				console.log(response, 'sucesso')
-				html = '<h3 class="text-success font-weight-bold"> URL gerada com sucesso: <a>' + response.url + '</a></h3>'
-				$('#append-info').html(html)
-
+				alertInfo('success', '<h3 class="text-success font-weight-bold"> URL gerada e copiada com sucesso: <input id="copy" class="form-control" value="' + response.url + '"></h3>')
+				$('#copy').select()
+				document.execCommand('copy')
 			}).fail(function(response) {
-				html = '<h3 class="text-danger font-weight-bold">' + response.responseJSON.erro + '</h3>'
-				$('#append-info').html(html)
+				if(response.responseJSON.erro) {
+					alertInfo('warning', response.responseJSON.erro)
+				} else {
+					alertInfo('danger', 'Erro desconhecido, aguarde uns instantes e tente novamente.')
+				}
 			})
-
 		})
+
+		function alertInfo(type, text) {
+			html = '<h3 class="text-' + type + ' font-weight-bold">' + text + '</h3>'
+			$('#append-info').html(html)
+		}
 	</script>
 </body>
 

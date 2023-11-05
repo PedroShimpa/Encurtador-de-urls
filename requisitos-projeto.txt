@@ -1,10 +1,12 @@
 Precisamos de um encurtador de link que seja de uso irrestrito e ilimitado
 
-- as urls devem ter no maximo 5 caracteres sendo de 0 a 9 e de a z 
-- é necessario verificar se ja existe a url encurtada ATIVA ou seja se ela não venceu ainda
-- é necessario que as urls geradas sejam salvas em um banco de dados relacional mysql com a hora da criação e data de vencimento, o id o link de redirecionamento e o hash de saida
-- a url deve durar somente 3 dias a partir da data de geração
-- urls vencidas redirecionam para a pagina inicial
-- ao gerar a url ela deve ser copiada automaticamente para o clipboard do usuario
+- as uris devem ter no maximo 5 caracteres sendo de 0 a 9 e de a z localhost:8000/23729
+- a uri deve durar somente 3 dias a partir da data de geração
+- é necessario verificar se ja existe a uri encurtada ATIVA ou seja se ela não venceu ainda
+- é necessario que as uris geradas sejam salvas em um banco de dados relacional mysql com a hora da criação e data de vencimento, o id o link de redirecionamento e o hash de saida
+- só é possivel usar o método post e get, outros metodos devem retornar 405
+- uris vencida ou não encontradas redirecionam para a pagina inicial
 - para os estilos é necessario usar o boostrap 5+
-- deve se postar a url e mostrar a url ao cliente via ajax
+- deve se postar a uri e mostrar a uri ao cliente via ajax
+- ao gerar a uri ela deve ser copiada automaticamente para o clipboard do usuario
+- é necessario validar a uri enviada com no maximo 255 caracteres e url valido

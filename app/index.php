@@ -1,6 +1,6 @@
 <?php
 
-require 'controller.php';
+require_once 'controller.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	(new Controller)->insertUrl();

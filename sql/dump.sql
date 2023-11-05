@@ -1,4 +1,3 @@
-
 CREATE DATABASE encurtador;
 
 use encurtador;
